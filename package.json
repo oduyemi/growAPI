@@ -28,6 +28,7 @@
     "mongoose": "^8.2.4"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/mongodb": "^4.0.7"
   }
 }
