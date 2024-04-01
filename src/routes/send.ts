@@ -100,8 +100,8 @@ router.post("/admin/signup", async (req: Request, res: Response) => {
 router.post("/admin/signin", async (req: Request, res: Response) => {
     try {
         const { email, pwd } = req.body;
-        if (![email, pwd].every((field) => field)) {
-            return res.status(400).json({ message: "All fields are required" });
+        if (!email || !pwd) {
+            return res.status(400).json({ message: "Email and password are required" });
         }
 
         try {
@@ -115,8 +115,6 @@ router.post("/admin/signin", async (req: Request, res: Response) => {
             if (!isPasswordMatch) {
                 return res.status(401).json({ message: "Incorrect email or password" });
             }
-
-            const pin = Math.floor(1000 + Math.random() * 9000).toString();
 
             // Access token
             const token = jwt.sign(
@@ -139,7 +137,6 @@ router.post("/admin/signin", async (req: Request, res: Response) => {
 
             return res.status(201).json({
                 message: "Admin login successful!.",
-                pin,
                 nextStep: "/next-dashboard",
                 token,
             });
