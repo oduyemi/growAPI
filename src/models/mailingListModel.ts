@@ -37,7 +37,7 @@ const mailingListSchema: Schema = new mongoose.Schema({
   },
   contactPreference: {
     type: String,
-    enum: ['email', 'phone', 'whatsapp'], 
+    enum: ['email', 'phone', 'instagram', 'whatsapp'], 
     required: true,
   },
   how: {

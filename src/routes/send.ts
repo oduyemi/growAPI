@@ -27,7 +27,7 @@ declare module "express-session" {
   
 
 
-router.post("/admin/contact", async (req: Request, res: Response) => {
+router.post("/contact", async (req: Request, res: Response) => {
     try {
         const { fullname, email, phone, productInterest, shopperOrVendor, contactPreference, how } = req.body;
         if (![fullname, email, phone, productInterest, shopperOrVendor, contactPreference, how].every((field) => field)) {
