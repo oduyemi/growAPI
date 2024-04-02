@@ -1,7 +1,8 @@
 import express, { Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 import { hash, compare } from "bcrypt";
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose from "mongoose";
 import Admin, { IAdmin } from "../models/adminModel";
 import MailingList, { IMailingList } from "../models/mailingListModel";
 
@@ -96,8 +97,7 @@ router.post("/admin/signup", async (req: Request, res: Response) => {
 
 
    
-  
-router.post("/admin/signin", async (req: Request, res: Response) => {
+router.post("/admin/signin", async (req, res) => {
     try {
         const { email, pwd } = req.body;
         if (!email || !pwd) {
@@ -110,13 +110,12 @@ router.post("/admin/signin", async (req: Request, res: Response) => {
                 return res.status(401).json({ message: "Email not registered. Please register first." });
             }
 
-            const isPasswordMatch = await compare(pwd, admin.pwd);
+            const isPasswordMatch = await bcrypt.compare(pwd, admin.pwd);
 
             if (!isPasswordMatch) {
                 return res.status(401).json({ message: "Incorrect email or password" });
             }
 
-            // Access token
             const token = jwt.sign(
                 {
                     adminID: admin._id,
@@ -125,7 +124,7 @@ router.post("/admin/signin", async (req: Request, res: Response) => {
                 process.env.JWT_SECRET || "default_secret",
             );
 
-            const adminSession: AdminSession = {
+            const adminSession = {
                 adminID: admin._id,
                 fname: admin.fname,
                 lname: admin.lname,
@@ -135,7 +134,7 @@ router.post("/admin/signin", async (req: Request, res: Response) => {
 
             req.session.admin = adminSession;
 
-            return res.status(201).json({
+            return res.status(200).json({
                 message: "Admin login successful!.",
                 nextStep: "/next-dashboard",
                 token,
@@ -149,6 +148,7 @@ router.post("/admin/signin", async (req: Request, res: Response) => {
         return res.status(500).json({ message: "Error logging in admin" });
     }
 });
+
 
 
 
