@@ -33,7 +33,7 @@ router.post("/contact", async (req: Request, res: Response) => {
         const { fullname, email, phone, productInterest, shopperOrVendor, contactPreference, how } = req.body;
         if (![fullname, email, phone, productInterest, shopperOrVendor, contactPreference, how].every((field) => field)) {
             return res.status(400).json({ message: "All fields are required" });
-        }
+        }        
         
         const newContact: IMailingList = new MailingList({ fullname, email, phone, productInterest, shopperOrVendor, contactPreference, how }) as IMailingList;
         await newContact.save();
