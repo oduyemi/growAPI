@@ -12,6 +12,14 @@ import db from "./db";
 dotenv.config();
 
 const app: Application = express();
+const session = require('express-session');
+
+app.use(session({
+  secret: process.env.SECRET_KEY!,
+  resave: false,
+  saveUninitialized: true
+}));
+
 
 const corsOptions = {
   origin: ["http://localhost:3000", "https://growafrica.shop", "https://www.growafrica.shop"]
