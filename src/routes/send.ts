@@ -30,20 +30,20 @@ declare module "express-session" {
 
 router.post("/contact", async (req: Request, res: Response) => {
     try {
-        const { fullname, email, phone, productInterest, shopperOrVendor, contactPreference, how } = req.body;
-        if (![fullname, email, phone, productInterest, shopperOrVendor, contactPreference, how].every((field) => field)) {
-            return res.status(400).json({ message: "All fields are required" });
-        }        
-        
-        const newContact: IMailingList = new MailingList({ fullname, email, phone, productInterest, shopperOrVendor, contactPreference, how }) as IMailingList;
-        await newContact.save();
-
-        return res.status(200).json({ message: "Contact saved!" });
+      const { fullname, email, phone, productInterest, shopperOrVendor, contactPreference, how } = req.body;
+      if (![fullname, email, phone, productInterest, shopperOrVendor, contactPreference, how].every((field) => field)) {
+        return res.status(400).json({ message: "All fields are required" });
+      }        
+          
+      const newContact = new MailingList({ fullname, email, phone, productInterest, shopperOrVendor, contactPreference, how });
+      await newContact.save();
+  
+      return res.status(200).json({ message: "Contact saved!" });
     } catch (error) {
-        console.error("Error saving contact:", error);
-        return res.status(500).json({ message: "Error saving contact" });
+      console.error("Error saving contact:", error);
+      return res.status(500).json({ message: "Error saving contact" });
     }
-});
+  });
 
 
 router.post("/admin/signup", async (req: Request, res: Response) => {
