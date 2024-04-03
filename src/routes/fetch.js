@@ -81,4 +81,124 @@ router.get("/contacts/:contactId", (req, res) => __awaiter(void 0, void 0, void 
         res.status(500).json({ Message: "Internal Server Error" });
     }
 }));
+router.get("/contact/emails", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const emailsWithNames = yield mailingListModel_1.default.find({}, { email: 1, fullname: 1 });
+        if (emailsWithNames.length === 0) {
+            res.status(404).json({ Message: "No emails found in the mailing list" });
+        }
+        else {
+            res.json({ data: emailsWithNames });
+        }
+    }
+    catch (error) {
+        console.error("Error fetching data from the database", error);
+        res.status(500).json({ Message: "Internal Server Error" });
+    }
+}));
+router.get("/contact/numbers", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const phonesWithNames = yield mailingListModel_1.default.find({}, { phone: 1, fullname: 1 });
+        if (phonesWithNames.length === 0) {
+            res.status(404).json({ Message: "No phone numbers found in the mailing list" });
+        }
+        else {
+            res.json({ data: phonesWithNames });
+        }
+    }
+    catch (error) {
+        console.error("Error fetching data from the database", error);
+        res.status(500).json({ Message: "Internal Server Error" });
+    }
+}));
+router.get("/contact/shoppers", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const shoppers = yield mailingListModel_1.default.find({ shopperOrVendor: 'shopper' });
+        if (shoppers.length === 0) {
+            res.status(404).json({ Message: "No form inputs of shoppers found in the mailing list" });
+        }
+        else {
+            res.json({ data: shoppers });
+        }
+    }
+    catch (error) {
+        console.error("Error fetching data from the database", error);
+        res.status(500).json({ Message: "Internal Server Error" });
+    }
+}));
+router.get("/contact/vendors", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const vendors = yield mailingListModel_1.default.find({ shopperOrVendor: 'vendor' });
+        if (vendors.length === 0) {
+            res.status(404).json({ Message: "No form inputs of vendors found in the mailing list" });
+        }
+        else {
+            res.json({ data: vendors });
+        }
+    }
+    catch (error) {
+        console.error("Error fetching data from the database", error);
+        res.status(500).json({ Message: "Internal Server Error" });
+    }
+}));
+router.get("/contact/preference/email", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const emailPreferences = yield mailingListModel_1.default.find({ contactPreference: 'email' });
+        if (emailPreferences.length === 0) {
+            res.status(404).json({ Message: "No form inputs with email preference found in the mailing list" });
+        }
+        else {
+            res.json({ data: emailPreferences });
+        }
+    }
+    catch (error) {
+        console.error("Error fetching data from the database", error);
+        res.status(500).json({ Message: "Internal Server Error" });
+    }
+}));
+router.get("/contact/preference/phone", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const phonePreferences = yield mailingListModel_1.default.find({ contactPreference: 'phone' });
+        if (phonePreferences.length === 0) {
+            res.status(404).json({ Message: "No form inputs with phone preference found in the mailing list" });
+        }
+        else {
+            res.json({ data: phonePreferences });
+        }
+    }
+    catch (error) {
+        console.error("Error fetching data from the database", error);
+        res.status(500).json({ Message: "Internal Server Error" });
+    }
+}));
+router.get("/contact/preference/instagram", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const instaPreferences = yield mailingListModel_1.default.find({ contactPreference: 'instagram' });
+        if (instaPreferences.length === 0) {
+            res.status(404).json({ Message: "No form inputs with Instagram preference found in the mailing list" });
+        }
+        else {
+            res.json({ data: instaPreferences });
+        }
+    }
+    catch (error) {
+        console.error("Error fetching data from the database", error);
+        res.status(500).json({ Message: "Internal Server Error" });
+    }
+}));
+router.get("/contact/preference/whatsapp", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const whatsappPreferences = yield mailingListModel_1.default.find({ contactPreference: 'whatsapp' });
+        if (whatsappPreferences.length === 0) {
+            res.status(404).json({ Message: "No form inputs with WhatsApp preference found in the mailing list" });
+        }
+        else {
+            res.json({ data: whatsappPreferences });
+        }
+    }
+    catch (error) {
+        console.error("Error fetching data from the database", error);
+        res.status(500).json({ Message: "Internal Server Error" });
+    }
+}));
 exports.default = router;

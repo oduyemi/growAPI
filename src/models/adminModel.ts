@@ -7,7 +7,7 @@ export interface IAdmin extends Document {
   lname: string;
   email: string;
   phone: string;
-  pwd: string;
+  password: string;
   createdAt: Date;
 }
 
@@ -29,7 +29,7 @@ const adminSchema: Schema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  pwd: {
+  password: {
     type: String,
     required: true,
   },
@@ -40,12 +40,12 @@ const adminSchema: Schema = new mongoose.Schema({
 });
 
 adminSchema.pre<IAdmin>('save', async function (next: Function) {
-  if (!this.isModified('pwd')) return next();
+  if (!this.isModified('password')) return next(); // Change 'pwd' to 'password'
 
   const saltRounds = 10;
   try {
-    const hashedPassword = await bcrypt.hash(this.pwd, saltRounds);
-    this.pwd = hashedPassword;
+    const hashedPassword = await bcrypt.hash(this.password, saltRounds); // Change 'pwd' to 'password'
+    this.password = hashedPassword;
     return next();
   } catch (error) {
     return next(error);

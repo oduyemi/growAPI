@@ -14,7 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const bcrypt_1 = require("bcrypt");
+const bcrypt_1 = __importDefault(require("bcrypt"));
+const bcrypt_2 = require("bcrypt");
 const adminModel_1 = __importDefault(require("../models/adminModel"));
 const mailingListModel_1 = __importDefault(require("../models/mailingListModel"));
 const router = express_1.default.Router();
@@ -36,19 +37,19 @@ router.post("/contact", (req, res) => __awaiter(void 0, void 0, void 0, function
 }));
 router.post("/admin/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { fname, lname, email, phone, pwd, cpwd } = req.body;
-        if (![fname, lname, email, phone, pwd, cpwd].every((field) => field)) {
+        const { fname, lname, email, phone, password, cpwd } = req.body;
+        if (![fname, lname, email, phone, password, cpwd].every((field) => field)) {
             return res.status(400).json({ message: "All fields are required" });
         }
-        if (pwd !== cpwd) {
+        if (password !== cpwd) {
             return res.status(400).json({ message: "Both passwords must match!" });
         }
         const existingAdmin = yield adminModel_1.default.findOne({ email });
         if (existingAdmin) {
             return res.status(400).json({ message: "Email already registered" });
         }
-        const hashedPassword = yield (0, bcrypt_1.hash)(pwd, 10);
-        const newAdmin = new adminModel_1.default({ fname, lname, email, phone, pwd: hashedPassword });
+        const hashedPassword = yield (0, bcrypt_2.hash)(password, 10);
+        const newAdmin = new adminModel_1.default({ fname, lname, email, phone, password: hashedPassword });
         yield newAdmin.save();
         // Access token
         const token = jsonwebtoken_1.default.sign({
@@ -76,21 +77,19 @@ router.post("/admin/signup", (req, res) => __awaiter(void 0, void 0, void 0, fun
 }));
 router.post("/admin/signin", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { email, pwd } = req.body;
-        if (![email, pwd].every((field) => field)) {
-            return res.status(400).json({ message: "All fields are required" });
+        const { email, password } = req.body;
+        if (!email || !password) {
+            return res.status(400).json({ message: "Email and password are required" });
         }
         try {
             const admin = yield adminModel_1.default.findOne({ email });
             if (!admin) {
                 return res.status(401).json({ message: "Email not registered. Please register first." });
             }
-            const isPasswordMatch = yield (0, bcrypt_1.compare)(pwd, admin.pwd);
+            const isPasswordMatch = yield bcrypt_1.default.compare(password, admin.password);
             if (!isPasswordMatch) {
                 return res.status(401).json({ message: "Incorrect email or password" });
             }
-            const pin = Math.floor(1000 + Math.random() * 9000).toString();
-            // Access token
             const token = jsonwebtoken_1.default.sign({
                 adminID: admin._id,
                 email: admin.email
@@ -103,9 +102,8 @@ router.post("/admin/signin", (req, res) => __awaiter(void 0, void 0, void 0, fun
                 phone: admin.phone,
             };
             req.session.admin = adminSession;
-            return res.status(201).json({
+            return res.status(200).json({
                 message: "Admin login successful!.",
-                pin,
                 nextStep: "/next-dashboard",
                 token,
             });

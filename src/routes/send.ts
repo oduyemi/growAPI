@@ -48,12 +48,12 @@ router.post("/contact", async (req: Request, res: Response) => {
 
 router.post("/admin/signup", async (req: Request, res: Response) => {
     try {
-        const { fname, lname, email, phone, pwd, cpwd } = req.body;
-        if (![fname, lname, email, phone, pwd, cpwd].every((field) => field)) {
+        const { fname, lname, email, phone, password, cpwd } = req.body;
+        if (![fname, lname, email, phone, password, cpwd].every((field) => field)) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
-        if (pwd !== cpwd) {
+        if (password !== cpwd) {
             return res.status(400).json({ message: "Both passwords must match!" });
         }
 
@@ -62,8 +62,8 @@ router.post("/admin/signup", async (req: Request, res: Response) => {
             return res.status(400).json({ message: "Email already registered" });
         }
 
-        const hashedPassword = await hash(pwd, 10);
-        const newAdmin: IAdmin = new Admin({ fname, lname, email, phone, pwd: hashedPassword }) as IAdmin;
+        const hashedPassword = await hash(password, 10);
+        const newAdmin: IAdmin = new Admin({ fname, lname, email, phone, password: hashedPassword }) as IAdmin;
         await newAdmin.save();
 
         // Access token
@@ -99,8 +99,8 @@ router.post("/admin/signup", async (req: Request, res: Response) => {
    
 router.post("/admin/signin", async (req, res) => {
     try {
-        const { email, pwd } = req.body;
-        if (!email || !pwd) {
+        const { email, password } = req.body;
+        if (!email || !password) {
             return res.status(400).json({ message: "Email and password are required" });
         }
 
@@ -110,7 +110,7 @@ router.post("/admin/signin", async (req, res) => {
                 return res.status(401).json({ message: "Email not registered. Please register first." });
             }
 
-            const isPasswordMatch = await bcrypt.compare(pwd, admin.pwd);
+            const isPasswordMatch = await bcrypt.compare(password, admin.password);
 
             if (!isPasswordMatch) {
                 return res.status(401).json({ message: "Incorrect email or password" });
