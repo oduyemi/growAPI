@@ -39,18 +39,18 @@ const adminSchema: Schema = new mongoose.Schema({
   },
 });
 
-adminSchema.pre<IAdmin>('save', async function (next: Function) {
-  if (!this.isModified('password')) return next(); // Change 'pwd' to 'password'
+// adminSchema.pre<IAdmin>('save', async function (next: Function) {
+//   if (!this.isModified('password')) return next(); 
 
-  const saltRounds = 10;
-  try {
-    const hashedPassword = await bcrypt.hash(this.password, saltRounds); // Change 'pwd' to 'password'
-    this.password = hashedPassword;
-    return next();
-  } catch (error) {
-    return next(error);
-  }
-});
+//   const saltRounds = 10;
+//   try {
+//     const hashedPassword = await bcrypt.hash(this.password, saltRounds); 
+//     this.password = hashedPassword;
+//     return next();
+//   } catch (error) {
+//     return next(error);
+//   }
+// });
 
 const Admin = mongoose.model<IAdmin>("Admin", adminSchema);
 

@@ -110,7 +110,7 @@ router.post("/admin/signin", async (req, res) => {
                 return res.status(401).json({ message: "Email not registered. Please register first." });
             }
 
-            const isPasswordMatch = await bcrypt.compare(password, admin.password);
+            const isPasswordMatch = await compare(password, admin.password);
 
             if (!isPasswordMatch) {
                 return res.status(401).json({ message: "Incorrect email or password" });
