@@ -15,6 +15,12 @@ const erase_1 = __importDefault(require("./routes/erase"));
 const db_1 = __importDefault(require("./db"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
+const session = require('express-session');
+app.use(session({
+    secret: process.env.SECRET_KEY,
+    resave: false,
+    saveUninitialized: true
+}));
 const corsOptions = {
     origin: ["http://localhost:3000", "https://growafrica.shop", "https://www.growafrica.shop"]
 };

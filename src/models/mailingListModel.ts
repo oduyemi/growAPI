@@ -42,6 +42,7 @@ const mailingListSchema: Schema = new mongoose.Schema({
   },
   how: {
     type: String,
+    enum: ['whatsapp', 'website', 'instagram', 'facebook', "x", "friend"],
     required: true,
   },
   date: { 

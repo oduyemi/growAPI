@@ -14,8 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const bcrypt_1 = __importDefault(require("bcrypt"));
-const bcrypt_2 = require("bcrypt");
+const bcrypt_1 = require("bcrypt");
 const adminModel_1 = __importDefault(require("../models/adminModel"));
 const mailingListModel_1 = __importDefault(require("../models/mailingListModel"));
 const router = express_1.default.Router();
@@ -48,7 +47,7 @@ router.post("/admin/signup", (req, res) => __awaiter(void 0, void 0, void 0, fun
         if (existingAdmin) {
             return res.status(400).json({ message: "Email already registered" });
         }
-        const hashedPassword = yield (0, bcrypt_2.hash)(password, 10);
+        const hashedPassword = yield (0, bcrypt_1.hash)(password, 10);
         const newAdmin = new adminModel_1.default({ fname, lname, email, phone, password: hashedPassword });
         yield newAdmin.save();
         // Access token
@@ -86,7 +85,7 @@ router.post("/admin/signin", (req, res) => __awaiter(void 0, void 0, void 0, fun
             if (!admin) {
                 return res.status(401).json({ message: "Email not registered. Please register first." });
             }
-            const isPasswordMatch = yield bcrypt_1.default.compare(password, admin.password);
+            const isPasswordMatch = yield (0, bcrypt_1.compare)(password, admin.password);
             if (!isPasswordMatch) {
                 return res.status(401).json({ message: "Incorrect email or password" });
             }
