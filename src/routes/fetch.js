@@ -171,21 +171,6 @@ router.get("/contact/preference/phone", (req, res) => __awaiter(void 0, void 0, 
         res.status(500).json({ Message: "Internal Server Error" });
     }
 }));
-router.get("/contact/preference/instagram", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const instaPreferences = yield mailingListModel_1.default.find({ contactPreference: 'instagram' });
-        if (instaPreferences.length === 0) {
-            res.status(404).json({ Message: "No form inputs with Instagram preference found in the mailing list" });
-        }
-        else {
-            res.json({ data: instaPreferences });
-        }
-    }
-    catch (error) {
-        console.error("Error fetching data from the database", error);
-        res.status(500).json({ Message: "Internal Server Error" });
-    }
-}));
 router.get("/contact/preference/whatsapp", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const whatsappPreferences = yield mailingListModel_1.default.find({ contactPreference: 'whatsapp' });

@@ -168,20 +168,6 @@ router.get("/contact/preference/phone", async (req: Request, res: Response) => {
     }
 });
 
-router.get("/contact/preference/instagram", async (req: Request, res: Response) => {
-    try {
-        const instaPreferences: IMailingList[] = await MailingList.find({ contactPreference: 'instagram' });
-
-        if (instaPreferences.length === 0) {
-            res.status(404).json({ Message: "No form inputs with Instagram preference found in the mailing list" });
-        } else {
-            res.json({ data: instaPreferences });
-        }
-    } catch (error) {
-        console.error("Error fetching data from the database", error);
-        res.status(500).json({ Message: "Internal Server Error" });
-    }
-});
 
 router.get("/contact/preference/whatsapp", async (req: Request, res: Response) => {
     try {
