@@ -12,7 +12,7 @@ const router = express.Router();
 require("dotenv").config();
 
 interface AdminSession {
-    adminID: mongoose.Types.ObjectId;
+    _id: mongoose.Types.ObjectId;
     fname: string;
     lname: string;
     email: string;
@@ -69,14 +69,14 @@ router.post("/admin/signup", async (req: Request, res: Response) => {
         // Access token
         const token = jwt.sign(
             {
-                adminID: newAdmin._id, 
+                _id: newAdmin._id, 
                 email: newAdmin.email
             },
             process.env.JWT_SECRET!,
         );
 
         const adminSession: AdminSession = {
-            adminID: newAdmin._id,
+            _id: newAdmin._id,
             fname,
             lname,
             email,
@@ -118,14 +118,14 @@ router.post("/admin/signin", async (req, res) => {
 
             const token = jwt.sign(
                 {
-                    adminID: admin._id,
+                    _id: admin._id,
                     email: admin.email
                 },
                 process.env.JWT_SECRET || "default_secret",
             );
 
             const adminSession = {
-                adminID: admin._id,
+                _id: admin._id,
                 fname: admin.fname,
                 lname: admin.lname,
                 email: admin.email,

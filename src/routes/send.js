@@ -52,11 +52,11 @@ router.post("/admin/signup", (req, res) => __awaiter(void 0, void 0, void 0, fun
         yield newAdmin.save();
         // Access token
         const token = jsonwebtoken_1.default.sign({
-            adminID: newAdmin._id,
+            _id: newAdmin._id,
             email: newAdmin.email
         }, process.env.JWT_SECRET);
         const adminSession = {
-            adminID: newAdmin._id,
+            _id: newAdmin._id,
             fname,
             lname,
             email,
@@ -90,11 +90,11 @@ router.post("/admin/signin", (req, res) => __awaiter(void 0, void 0, void 0, fun
                 return res.status(401).json({ message: "Incorrect email or password" });
             }
             const token = jsonwebtoken_1.default.sign({
-                adminID: admin._id,
+                _id: admin._id,
                 email: admin.email
             }, process.env.JWT_SECRET || "default_secret");
             const adminSession = {
-                adminID: admin._id,
+                _id: admin._id,
                 fname: admin.fname,
                 lname: admin.lname,
                 email: admin.email,
