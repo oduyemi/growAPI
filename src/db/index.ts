@@ -6,17 +6,15 @@ require('dotenv').config();
 const mongoDBURI: string = process.env.MONGODB_URI !== undefined ? process.env.MONGODB_URI : "mongodb://127.0.0.1:27017/growAfricadb";
 
 mongoose
-  .connect(mongoDBURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
+  .connect(mongoDBURI)
   .catch((e: Error) => {
     console.error("MongoDB connection error:", e.message);
+    process.exit(1); 
   });
 
 const db: Connection = mongoose.connection;
 
-db.on("error", (error) => {
+db.on("error", (error: any) => { 
   console.error("MongoDB connection error:", error);
 });
 
@@ -31,8 +29,8 @@ const store = new MongoDBStore({
   collection: 'sessions' 
 });
 
-store.on('error', function(error) {
+store.on('error', function(error: any) { 
   console.error('Session Store Error:', error);
 });
 
-export { db, store };
+export { db, store }; // Exporting 'db' and 'store' as named exports

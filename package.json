@@ -29,6 +29,7 @@
     "mongoose": "^8.3.1"
   },
   "devDependencies": {
+    "@types/connect-mongodb-session": "^2.4.7",
     "@types/cors": "^2.8.17",
     "@types/mongodb": "^4.0.7"
   }

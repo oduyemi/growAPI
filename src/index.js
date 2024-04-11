@@ -12,7 +12,7 @@ const fetch_1 = __importDefault(require("./routes/fetch"));
 const send_1 = __importDefault(require("./routes/send"));
 const update_1 = __importDefault(require("./routes/update"));
 const erase_1 = __importDefault(require("./routes/erase"));
-const db_1 = __importDefault(require("./db"));
+const db_1 = require("./db");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const session = require('express-session');
@@ -32,7 +32,7 @@ app.use("/", fetch_1.default);
 app.use("/send", send_1.default);
 app.use("/update", update_1.default);
 app.use("/erase", erase_1.default);
-db_1.default.on("error", console.error.bind(console, "Mongodb Connection Error:"));
+db_1.db.on("error", console.error.bind(console, "Mongodb Connection Error:"));
 app.use("/api", (0, http_proxy_middleware_1.createProxyMiddleware)({
     target: "http://192.168.43.113:3000/",
     changeOrigin: true,
