@@ -31,16 +31,5 @@ const adminSchema = new mongoose_1.default.Schema({
         default: Date.now
     },
 });
-// adminSchema.pre<IAdmin>('save', async function (next: Function) {
-//   if (!this.isModified('password')) return next(); 
-//   const saltRounds = 10;
-//   try {
-//     const hashedPassword = await bcrypt.hash(this.password, saltRounds); 
-//     this.password = hashedPassword;
-//     return next();
-//   } catch (error) {
-//     return next(error);
-//   }
-// });
 const Admin = mongoose_1.default.model("Admin", adminSchema);
 exports.default = Admin;

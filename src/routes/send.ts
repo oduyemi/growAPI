@@ -12,7 +12,7 @@ const router = express.Router();
 require("dotenv").config();
 
 interface AdminSession {
-    adminID: mongoose.Types.ObjectId; 
+    adminID: mongoose.Types.ObjectId;
     fname: string;
     lname: string;
     email: string;

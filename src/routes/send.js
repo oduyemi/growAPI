@@ -102,7 +102,7 @@ router.post("/admin/signin", (req, res) => __awaiter(void 0, void 0, void 0, fun
             };
             req.session.admin = adminSession;
             return res.status(200).json({
-                message: "Admin login successful!.",
+                message: "success",
                 nextStep: "/next-dashboard",
                 token,
             });

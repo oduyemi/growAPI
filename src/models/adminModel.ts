@@ -1,8 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
-import bcrypt from 'bcrypt';
 
 export interface IAdmin extends Document {
-  admin_id: mongoose.Types.ObjectId;
+  adminID: mongoose.Types.ObjectId;
   fname: string;
   lname: string;
   email: string;
@@ -39,18 +38,6 @@ const adminSchema: Schema = new mongoose.Schema({
   },
 });
 
-// adminSchema.pre<IAdmin>('save', async function (next: Function) {
-//   if (!this.isModified('password')) return next(); 
-
-//   const saltRounds = 10;
-//   try {
-//     const hashedPassword = await bcrypt.hash(this.password, saltRounds); 
-//     this.password = hashedPassword;
-//     return next();
-//   } catch (error) {
-//     return next(error);
-//   }
-// });
 
 const Admin = mongoose.model<IAdmin>("Admin", adminSchema);
 
