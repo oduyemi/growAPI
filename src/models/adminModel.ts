@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface IAdmin extends Document {
-  adminID: mongoose.Types.ObjectId;
+  _id: mongoose.Types.ObjectId;
   fname: string;
   lname: string;
   email: string;
