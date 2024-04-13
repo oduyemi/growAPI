@@ -36,7 +36,7 @@ router.put("/admin/:adminId", (req, res) => __awaiter(void 0, void 0, void 0, fu
         res.status(500).json({ Message: "Internal Server Error" });
     }
 }));
-router.put("/admin/:adminId/resetpassword", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.put("/admin/resetpassword/:adminId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const adminId = req.params.adminId;
         if (!req.session.admin || req.session.admin.adminID.toString() !== adminId) {

@@ -36,7 +36,7 @@ router.put("/admin/:adminId", async (req: Request, res: Response) => {
 
 
 
-router.put("/admin/:adminId/resetpassword", async (req, res) => {
+router.put("/admin/resetpassword/:adminId", async (req, res) => {
     try {
         const adminId = req.params.adminId;
         if (!req.session.admin || req.session.admin.adminID.toString() !== adminId) {
